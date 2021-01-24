@@ -37,6 +37,7 @@ app.use((error, req, res, next) => {
   else {
     res.status(500).send(fail('Unexpected exception'));
   }
+  next(error);
 });
 
 // Limits incoming requests by ip

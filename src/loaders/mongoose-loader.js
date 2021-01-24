@@ -17,4 +17,4 @@ db.once('open', () => {
   logger.info(`Successfull connection  - APP connected to the remote mongodb service - SERVICE ADDRESS : ${MONGODB_URI}`);
 });
 
-module.exports=mongoose;
+module.exports = mongoose;
