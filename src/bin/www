@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+ 
+
+const http = require('http');
+const app = require('../app'); 
+const mongoose = require('../loaders/mongoose-loader');
+const {logger} = require('../loaders/winston-loader');
+
+const config = require('../config/config'); 
+
+const port = normalizePort(config.port);
+app.set('port', port);
+
+const server = http.createServer(app);
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        return val;
+    }
+
+    if (port >= 0) {
+        return port;
+    }
+
+    return false;
+}
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    let bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    switch (error.code) {
+        case 'EACCES':
+            logger.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            logger.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            logger.error('undefined error occured');
+            logger.error(error);
+            process.exit(1);
+    }
+}
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+        logger.log('info','Listening on  ' + bind);
+}
+
+module.exports={app, server}

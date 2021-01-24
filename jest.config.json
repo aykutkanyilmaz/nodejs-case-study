@@ -1,0 +1,4 @@
+{   "jest": true ,
+    "testEnvironment": "node",
+    "testRegex": "((\\.|/*.)(spec))\\.js?$"
+}
